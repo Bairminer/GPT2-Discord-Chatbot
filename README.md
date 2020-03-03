@@ -1,4 +1,17 @@
-# gpt2bot
+# Maxwell - A DialoGPT variant for discord.py
+
+Maxwell is my experiment with Microsoft's DialoGPT model and OpenAI's GPT-2 language model, for use on any discord server.  I am planning on fine-tuning much more in the future but for now DialoGPT's model performs admirably.
+As of 3-2-2020 I am running this model on my old bot, Maple, which you can invite here:
+<a href="https://discordbotlist.com/bots/571924469661302814">
+    <img
+        width="380"
+        height="140"
+        src="https://discordbotlist.com/bots/571924469661302814/widget"
+        alt="Lithium stats on Discord Bot List">
+</a>
+
+
+# gpt2bot - Original Readme
 
 ```
 User >>> Can we achieve singularity?

@@ -2,3 +2,7 @@ numpy==1.16.4
 torch==1.2.0
 transformers==2.3.0
 python-telegram-bot==12.3.0
+discord.py==1.2.5
+googletrans==2.4.0
+textblob==0.15.3
+matplotlib==2.0.2
