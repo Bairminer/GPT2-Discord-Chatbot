@@ -10,11 +10,12 @@ As of 3-2-2020 I am running this model on my old bot, Maple, which you can invit
         alt="Lithium stats on Discord Bot List">
 </a>
 
-## Setup:
+## Setup
 
 The recommended python version is 3.6.8.  
 
-### Requirements (They can all be installed with "pip install -r requirements.txt"):
+### Requirements
+You can install all requirements with "pip install -r requirements.txt".
 
 python 3.6.8
 numpy 1.16.4
