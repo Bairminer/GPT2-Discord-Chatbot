@@ -116,6 +116,14 @@ def run_chat():
     turns = []
     client.run('TOKEN_GOES_HERE') #Replace TOKEN_GOES_HERE with your bot's discord API token
 
+def get_prescripted_lines(filepath):
+    lines = []
+    with open(filepath, "r") as f:
+        for line in f:
+            lines.append(line)
+    return lines
+global static_history
+static_history = get_prescripted_lines("./constant_thoughts.txt")
 def get_response(prompt):
     global translator
     global turns
@@ -126,6 +134,7 @@ def get_response(prompt):
     global mmi_model
     global mmi_tokenizer
     global config
+    global static_history
     if max_turns_history == 0:
         # If you still get different responses then set seed
         turns = []
@@ -137,16 +146,20 @@ def get_response(prompt):
     }
     turns.append(turn)
     turn['user_messages'].append(prompt)
+    
     # Merge turns into a single history (don't forget EOS token)
     history = ""
     from_index = max(len(turns)-max_turns_history-1, 0) if max_turns_history >= 0 else 0
+    for message in static_history:
+        history += message + tokenizer.eos_token
+        
     for turn in turns[from_index:]:
         # Each turn begings with user messages
         for message in turn['user_messages']:
             history += message + tokenizer.eos_token
         for message in turn['bot_messages']:
             history += message + tokenizer.eos_token
-
+    
     # Generate bot messages
     bot_messages = generate_response(
         model, 
@@ -203,3 +216,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+ 
