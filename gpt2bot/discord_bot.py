@@ -146,7 +146,7 @@ def write_status_report():
     global number_of_sent_messages
     global number_of_servers
     global history_dict
-    with open("status_report.txt", "w") as f:
+    with open("./status_report.txt", "w") as f:
         f.write("```")
         f.write("Status Report: " + datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S") + "\n")
         f.write("Number of guilds: " + str(number_of_servers) + "\n")
