@@ -1,6 +1,6 @@
 # Discord GPT2 Chatbot
 #### Based off of: https://github.com/DoktorHolmes/Maxwell and https://github.com/polakowo/gpt2bot    
-![The AI uprising is coming](hal.gif)  
+![The AI uprising is coming](/images/hal.gif)  
 #### Changelog:
 - Fixed issues with long messages causing the original Maxwell bot to freeze (clears history if an error occurs and prints traceback in Discord)
 - Fixed issues with translation causing no response from bot due to misread language
@@ -127,7 +127,7 @@ python interactive_bot.py
 
 ### 3. Start chatting!
 
-![](telegram_bot.gif)
+![](/images/telegram_bot.gif)
 
 Just start texting. Append @gif for the bot to generate a GIF instead of text. To reset, type "Bye".
 
