@@ -1,4 +1,26 @@
-# Maxwell - A DialoGPT variant for discord.py
+# Discord GPT2 Chatbot
+Based off of: https://github.com/DoktorHolmes/Maxwell and https://github.com/polakowo/gpt2bot  
+Fixed issues with long messages causing the original Maxwell bot to freeze (clears history if an error occurs), fixed issues with translation causing no response from bot, removed statistics reporting which was cuasing issues.
+## Installation
+Please ignore instructions from original readmes  
+1. Clone this repository  
+2. Install Python 3.7.9 if not installed  
+3. Install required libraries (I reccomend using a virtual environment or an IDE like PyCharm). You can install all requirements with "pip install -r requirements.txt":  
+requests~=2.24.0  
+torch~=1.2.0+cu92  
+tqdm~=4.48.2  
+transformers~=2.3.0  
+python-telegram-bot~=12.8  
+numpy~=1.19.1  
+discord~=1.0.1  
+textblob~=0.15.3  
+googletrans~=3.0.0  
+matplotlib 2.0.2~=3.3.1
+4. Open the folder "gpt2bot"  
+5. In discord_bot.py, at line 117, replace "TOKEN_GOES_HERE" with your discord bot's API token  
+6. Run discord_bot.py. The model will download automatically.
+
+# Maxwell - A DialoGPT variant for discord.py - Original Readme
 
 Maxwell is my experiment with Microsoft's DialoGPT model and OpenAI's GPT-2 language model, for use on any discord server.  I am planning on fine-tuning much more in the future but for now DialoGPT's model performs admirably.
 As of 3-2-2020 I am running this model on my old bot, Maple, which you can invite here:
