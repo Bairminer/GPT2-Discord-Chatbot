@@ -1,6 +1,7 @@
 # Discord GPT2 Chatbot
 Based off of: https://github.com/DoktorHolmes/Maxwell and https://github.com/polakowo/gpt2bot  
-Fixed issues with long messages causing the original Maxwell bot to freeze (clears history if an error occurs), fixed issues with translation causing no response from bot, removed statistics reporting which was cuasing issues.
+  
+Fixed issues with long messages causing the original Maxwell bot to freeze (clears history if an error occurs), fixed issues with translation causing no response from bot, removed statistics reporting which was causing issues.
 ## Installation
 Please ignore instructions from original readmes  
 1. Clone this repository  
