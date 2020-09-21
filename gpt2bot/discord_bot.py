@@ -15,6 +15,7 @@ import re
 #import matplotlib as mpl
 #mpl.use('Agg')
 #import matplotlib.pyplot as plt
+import traceback
 
 
 from model import download_model_folder, download_reverse_model_folder, load_model
@@ -45,9 +46,6 @@ global tokenizer
 global mmi_model
 global config
 global mmi_tokenizer
-global number_of_messages
-global number_of_sent_messages
-global number_of_servers
 global start_time
 global history_dict
 import datetime
@@ -63,21 +61,13 @@ async def on_ready():
     global mmi_model
     global mmi_tokenizer
     global config
-    global number_of_messages
-    global number_of_sent_messages
-    global number_of_servers
     global history_dict
-    if(number_of_messages is None):
-        number_of_messages = 0
-        number_of_sent_messages = 0
-        number_of_servers = str(len(client.guilds))
 
     if(history_dict is None):
         history_dict = {}
     translator = Translator()
     print('Logged in as '+client.user.name+' (ID:'+str(client.user.id)+') | '+str(len(client.guilds))+' servers | ' + getAllUsersCount())
-    await client.change_presence(activity=discord.Game(name='chat with me!'))
-    write_status_report()
+    await client.change_presence(activity=discord.Game(name='remind me to fix bugs'))
     #schedule.every().day.at("00:00").do(client.loop.call_soon_threadsafe, restart_script())
     #client.loop.create_task(run_schedule())
 
@@ -85,52 +75,37 @@ async def on_ready():
 #Called when a message is received
 @client.listen()
 async def on_message(message):
-    global number_of_messages
-    global number_of_sent_messages
-    global number_of_servers
+    global turn
+    global turn2
+    global from_index
+    global history_dict
     if not (message.author == client.user): #Check to ensure the bot does not respond to its own messages
         if(message.mention_everyone == False):
             if(client.user.mentioned_in(message) or isinstance(message.channel, discord.abc.PrivateChannel)): #Check if the bot is mentioned or if the message is in DMs
                 async with message.channel.typing(): #Show that the bot is typing
-                    number_of_messages += 1
-                    number_of_servers = str(len(client.guilds))
-                    #write_status_report()
                     translator = Translator()
                     txtinput = message.content.replace("<@" + str(client.user.id) + ">", "").replace("<@!" + str(client.user.id) + ">", "")  #Filter out the mention so the bot does not get confused
-                    if(len(txtinput) > 220): #Spam protection
-                        txt = "I am sorry, that is too long for me."
-                    dicestr = re.search("Roll (\d{1,2})d(\d{1,3})",message.content)
-                    if(dicestr != None):
-                        dice = [dicestr.group(1), dicestr.group(2)]
-                        output = "I rolled "
-                        for i in range(int(dice[0])):
-                            output += str(random.randrange(1, int(dice[1]))) + ", "
-                        txt = output
-                    else:
-                        blob = TextBlob(txtinput)
-                        lang = translator.detect(txtinput).lang
-                        #lang = "en"
+                    blob = TextBlob(txtinput)
+                    lang = translator.detect(txtinput).lang
+                    #lang = "en"
+                    try:
                         if(lang != "en"):
                             txtinput = str(translator.translate(txtinput, dest="en", src=lang).text)
-                        #_context.append(txtinput)
-                        if(isinstance(message.channel, discord.abc.PrivateChannel)):
+                            #_context.append(txtinput)
+                    except:
+                        print("A translation error occured")
+                    if(isinstance(message.channel, discord.abc.PrivateChannel)):
                             txt = get_response(txtinput, message.author.id, False) #Get a response!
-                        else:
+                    else:
                             txt = get_response(txtinput, message.guild.id, False) #Get a response!
-                        response_blob = TextBlob(txt)
-                    number_of_sent_messages += 1
-                    bot_message = await message.channel.send(txt) #Fire away!
-                    #gifchance = 18
-                    #gifresult = random.randrange(1, 100)
-                    #if(gifresult <= gifchance):
-                    #    if(lang != "en"):
-                    #        gif_message = tenor_gifs.random(en_text)
-                    #    elif(lang == "en"):
-                    #        gif_message = tenor_gifs.random(txt)
-                    #    else:
-                    #        gif_message = tenor_gifs.random(txt)
-                    #    await message.channel.send(gif_message)
-                    write_status_report()
+                    response_blob = TextBlob(txt)
+                    try:
+                        bot_message = await message.channel.send(txt) #Fire away!
+                    except:
+                        txt = traceback.format_exc() #Fetch error
+                        txt = "An error has occurred. Please try again:\n```" + txt + "```"
+                        bot_message = await message.channel.send(txt)  # Fire away!
+                        history_dict = {} #Clear history
 
 
 def getAllUsersCount():
@@ -139,22 +114,6 @@ def getAllUsersCount():
     for g in guilds:
          user_count += len(g.members)
     return("Current user count: " + str(user_count))
-
-
-def write_status_report():
-    global number_of_messages
-    global number_of_sent_messages
-    global number_of_servers
-    global history_dict
-    with open("./status_report.txt", "w") as f:
-        f.write("```")
-        f.write("Status Report: " + datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S") + "\n")
-        f.write("Number of guilds: " + str(number_of_servers) + "\n")
-        f.write("Number of messages received since last reboot: " + str(number_of_messages) + "\n")
-        f.write("Number of messages sent since last reboot: " + str(number_of_sent_messages) + "\n")
-        f.write("Number of failed responses since last reboot: " + str(number_of_messages - number_of_sent_messages) + "\n")
-        f.write("Number of guilds in memory: " + str(len(history_dict)) + "\n```")
-        f.close()
 
 def run_chat():
     # Parse parameters
@@ -167,9 +126,6 @@ def run_chat():
     global mmi_model
     global mmi_tokenizer
     global config
-    global number_of_messages
-    global number_of_sent_messages
-    global number_of_servers
     global history_dict
     global token
     
@@ -195,7 +151,8 @@ global static_history
 static_history = get_prescripted_lines("./constant_thoughts.txt")
 def get_response(prompt, channel_id, do_infinite):
     global translator
-    
+    global turn
+    global turn2
     global num_samples
     global max_turns_history
     global model
@@ -204,6 +161,7 @@ def get_response(prompt, channel_id, do_infinite):
     global mmi_tokenizer
     global config
     global history_dict
+    global from_index
     if max_turns_history == 0:
         # If you still get different responses then set seed
         turns = []
@@ -266,13 +224,10 @@ def main():
     global mmi_model
     global mmi_tokenizer
     global config
-    global number_of_messages
-    global number_of_sent_messages
-    global number_of_servers
     global history_dict
     global token
 
-    token = "TOKEN_GOES_HERE" # Replace TOKEN_GOES_HERE with your discord API bot token!
+    token = "YOUR_TOKEN_HERE" # Replace TOKEN_GOES_HERE with your discord API bot token!
     history_dict = {}
     # Script arguments can include path of the config
     arg_parser = argparse.ArgumentParser()
