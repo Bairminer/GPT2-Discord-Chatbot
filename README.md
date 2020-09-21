@@ -1,6 +1,5 @@
 # Discord GPT2 Chatbot
 Based off of: https://github.com/DoktorHolmes/Maxwell and https://github.com/polakowo/gpt2bot  
-<div class="tenor-gif-embed" data-postid="12928790" data-share-method="host" data-width="100%" data-aspect-ratio="1.0"><a href="https://tenor.com/view/im-sorry-dave-im-afraid-icant-do-that-gif-12928790">Im Sorry Dave Im Afraid ICant Do That GIF</a> from <a href="https://tenor.com/search/imsorrydave-gifs">Imsorrydave GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>  
 Fixed issues with long messages causing the original Maxwell bot to freeze (clears history if an error occurs and prints traceback in Discord), fixed issues with translation causing no response from bot due to misread language, removed statistics reporting which had errors that prevented the original program from running.
 ## Installation
 Please ignore instructions from original readmes  
