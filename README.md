@@ -3,10 +3,10 @@
 ![The AI uprising is coming](hal.gif)  
 #### Changelog:
 - Fixed issues with long messages causing the original Maxwell bot to freeze (clears history if an error occurs and prints traceback in Discord)
-- fixed issues with translation causing no response from bot due to misread language
-- removed statistics reporting which had errors that prevented the original program from running
+- Fixed issues with translation causing no response from bot due to misread language
+- Removed statistics reporting which had errors that prevented the original program from running
 ## Installation
-Please ignore instructions from original readmes  
+Please ignore instructions from original readme, I updated packages to the latest working versions:    
 1. Clone this repository  
 2. Install Python 3.7.9 if not installed  
 3. Install required libraries (I reccomend using a virtual environment or an IDE like PyCharm). You can install all requirements with "pip install -r requirements.txt":  
