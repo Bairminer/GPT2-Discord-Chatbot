@@ -23,6 +23,7 @@ matplotlib 2.0.2~=3.3.1
 4. Open the folder "gpt2bot"  
 5. In discord_bot.py, at line 117, replace "TOKEN_GOES_HERE" with your discord bot's API token  
 6. Run discord_bot.py. The model will download automatically.
+7. @ the bot or DM to get a response!
 
 # Maxwell - A DialoGPT variant for discord.py - Original Readme
 
